@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP2OA表单业务对接接口文档V1.0 - 北京致远互联软件股份有限公司</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 30px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+        
+        .header h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header .subtitle {
+            text-align: center;
+            font-size: 18px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .company-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .company-logo span {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 5px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #283593;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #283593;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e8eaf6;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title:before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 24px;
+            background-color: #283593;
+            margin-right: 15px;
+            border-radius: 3px;
+        }
+        
+        .env-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .env-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid #283593;
+        }
+        
+        .env-card h3 {
+            color: #283593;
+            margin-bottom: 10px;
+        }
+        
+        .endpoint {
+            font-family: 'Courier New', monospace;
+            background-color: #e8eaf6;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin: 5px 0;
+            word-break: break-all;
+        }
+        
+        .api-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .api-header {
+            background-color: #e8eaf6;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .api-method {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #283593;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .api-url {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .api-body {
+            padding: 20px;
+        }
+        
+        .api-section {
+            margin-bottom: 20px;
+        }
+        
+        .api-section h4 {
+            color: #283593;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .code-language {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        .copy-btn {
+            background-color: #283593;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #1a237e;
+        }
+
+        .code-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-code-btn {
+            background-color: #eef2ff;
+            color: #283593;
+            border: 1px solid #c5cae9;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .toggle-code-btn:hover {
+            background-color: #e3e8ff;
+        }
+
+        .code-block-shell {
+            position: relative;
+        }
+
+        .code-block-shell.is-collapsed::after {
+            content: '';
+            position: absolute;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            height: 72px;
+            border-radius: 0 0 6px 6px;
+            background: linear-gradient(to bottom, rgba(248, 249, 250, 0), rgba(248, 249, 250, 0.96) 65%, rgba(248, 249, 250, 1) 100%);
+            pointer-events: none;
+        }
+
+        .code-preview-collapsed {
+            max-height: 360px;
+            overflow: hidden;
+        }
+
+        .form-tabs {
+            margin: 18px 0 24px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fafbff;
+        }
+
+        .form-tab-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            background-color: #eef2ff;
+            border-bottom: 1px solid #d7ddf5;
+        }
+
+        .form-tab-btn {
+            appearance: none;
+            border: none;
+            background: transparent;
+            color: #5c6bc0;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-tab-btn:hover {
+            background-color: rgba(255, 255, 255, 0.55);
+            color: #283593;
+        }
+
+        .form-tab-btn.active {
+            background-color: white;
+            color: #283593;
+            box-shadow: inset 0 -3px 0 #283593;
+        }
+
+        .form-tab-panel {
+            display: none;
+            padding: 20px 20px 4px;
+            background-color: white;
+        }
+
+        .form-tab-panel.active {
+            display: block;
+        }
+
+        .form-tabs-status {
+            padding: 18px 20px;
+            color: #666;
+            background-color: #f8f9fa;
+            border: 1px dashed #d7ddf5;
+            border-radius: 10px;
+        }
+        
+        .enum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .enum-table th, .enum-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .enum-table th {
+            background-color: #e8eaf6;
+            color: #283593;
+        }
+        
+        .enum-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .note {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .process-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .process-step-card {
+            flex: 1;
+            min-width: 260px;
+            background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
+            border: 1px solid #d9e0f7;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 8px 20px rgba(40, 53, 147, 0.08);
+            position: relative;
+        }
+
+        .process-step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #283593 0%, #5c6bc0 100%);
+        }
+
+        .step-label {
+            display: inline-block;
+            font-size: 12px;
+            color: #5c6bc0;
+            background-color: #e8eaf6;
+            border-radius: 999px;
+            padding: 4px 10px;
+            margin-bottom: 12px;
+        }
+
+        .process-step-card h3 {
+            color: #283593;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .process-step-card p {
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .step-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .step-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .step-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 110px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .step-link.primary {
+            background-color: #283593;
+            color: white;
+        }
+
+        .step-link.primary:hover {
+            background-color: #1a237e;
+        }
+
+        .step-link.secondary {
+            background-color: #eef2ff;
+            color: #283593;
+            border: 1px solid #c5cae9;
+        }
+
+        .step-link.secondary:hover {
+            background-color: #e3e8ff;
+        }
+
+        .anchor-target {
+            scroll-margin-top: 24px;
+        }
+        
+        .step {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #283593;
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #283593;
+        }
+        
+        .step-arrow {
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #283593;
+            font-size: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .env-card, .step, .process-step-card {
+                min-width: 100%;
+            }
+            
+            .step-arrow {
+                display: none;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ERP2OA表单业务对接接口文档V1.0</h1>
+            <p class="subtitle"></p>
+            <div class="company-logo">
+                <div class="logo-placeholder">
+                    <img style="width: 40px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX4AAAGbCAYAAADDU/vNAAAACXBIWXMAABcSAAAXEgFnn9JSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAPgpJREFUeNrsnV2MJEt212OuB7MgQ/eCza61d+kasCwejLsWEDwg3DUCBLJkdd0HJB6MOkcXiZXAmhrJQoAsd/bKvCFNjeDBL6upFh/LC0w1ixAWoKm2eUGwutXyg8XK5lbDWtrFlm71smDLWhji9Jycyc7Jj/iOyKz/T0pNT3dVfkRG/M+JEyci7r169UoAAADYHd5DEQAAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAA4QcAAADhBwAAMCDuowjAkPnSV+9P+McRH8XP35HH98njs/L4FP9+n//9HXn8ljx+jzx+H7eT/yWPr8vjv8rj6c/+xHe3KF3QV+69evUKpQD6Lu5j+c+YBZ3+/X4W9e+Rx/9mQSfx/r/8/2/L4w/L4//J43Py+A0We/rM75fHpxUv/Zvca/7PbCieyWMNowAg/AC4FXkS9wkfJPKH8vgaCzp57p+Xxw/K41fk8Q15/F55/IA8fphPcSmPjTx+lY9vat7CuNQzKH6mf/dKn7nma6zIENC/MAYAwg+AmdBPWWD/kzy27NX/CP+OxPaX+WuHbACIG3ks6ZDiu/R8r4UxGpeMUtkYLNkYwBAACD8AFQEl0cxY7A9ZvH+RPfofZLEvxPS/yON75fFjJa87mNgrGoPiOCr96aJ0jzACAMIPdlrsyas/4F//CxbxP1/6Hf3/X4rXMfm/XPp9YQjylMWUn7PovRyVjYC85wVqAoDwg6GL/YgFcFYS8Cv27v+oPH689HH6/b8Vr7NwTiqnorj9PLZ3b9EjmLIxoPJY8LNsUEMAhB8MSfAnLPbHpV9/RR6/Lo+/UvHiSdSXFQ+57OFnUiRXAzKEhSEQ6AUACD8YgrBl4nUophy2+Xn++YvibmYMCf4/kcdP1gg+fW82dFGU5UUGYPyd7YP/ef53f+yffesbX8ZYAIDwg16I1z579zNxd/C1TfDpbxS/P6k55TmL/s6I4Gfe/3DBvYA5HTAAAMIP+ib4JF6fqhH8a/7suPKd8t8HE9bREH0qx08qvR0YAADhB8mJfl4j3jSrlWa4/n1xN4ZPnMnjP8jjH4q7ue8FFyz6Oyd0UvipLE9r/gQDACD8IAnBz8TdGD5BoZufkcfPiXdj9ZSpk3EY47ThtE+k4M93sTzZ29/U9H6qBmAmxX+BGghUwSJtwIXgj9n7LAt7OXTzSzVfIy+fxGrZ4OWToE2k6K93uGhnHaIv+O/PpZGYsQFYoUYCePzAp+Dvs4f/uPInCuvQ5Ku60M01e/gjFv46YbvtCeyy6Ct6+3WcswFA+Ac0gvX4ganok3ivK6JPov6QBesXa0T/gnsA9N0XLaK/656+qrdfB2VCbaThmKKWAnj8wKWXT576cY2oP2Zv/7jmqxTamfNx0nD6QvR33luVwk3G88DyNLeD4vD+AYQf2Ij+hEW/LEg37J2Sh76sEavi78XKlIcQ/U7Rz+Q/zx2d7obFf4kaDAoQ6gGqok+e+suKsN+KNf/8UYPoTyD62uQOz0Xhohc0CYzHDQCAxw86BX8k6jNvbsMIojl0UwzibjpEn4zDCKLvxduvM7Dk/a9R0vD4AWgSffLW1zWi/YxFf9Eg+iQwY0XRh6fvz9uvQu9hhYFfAOEHTaJPcfmX4t3MkkcsTiToxw2iP+Gf20SfmCF75x1v/8DzZYrQT44S310Q6gF1ol/nyZN3XqRwNgm6jug/k6I/Q2nfEf51R5m5Bjn/EH4Awb9N1awT7GKQdtMi6PSZMW0gIs+zbOgNvDEQ8nNjlPgd0Z9wDys0t8Ya4r9bINQDdER/I9qXV9hw9s9xx+UylPg75JGuW8T9YYgh/GDHRH/cIOpVT79pJumUYvW8SNvjjsudIa5fy0K8zoSC+APvINQD0R83iLpKeId4RDthtZynzLX87KgP5cIiWJf3vvnWN7688XjdCXv/RxEe+/adI90Twg8g+m2ify6FPGsJE1V5mOJGKlJsyRgVG55Tmahk1lBsfF0crlfFjGgAIP4QfrCDok98gUM3FH7oXFeH4/pdIZ5L+dlJQmJPxirjw1UmzSUbgpWrJRIiGQCIP4Qf7JjoF6EbEpvTNmFg40DCpJKN8oAGfxPx7vMWg+aSCy7npW14iCddzYX/PH+IP4QfDFD0R+yV1on+7W5XPEjbtmxA8bl9PleXGN2GhBLw8Kt7AIeEekjUg1rYpE7yxKtQzwDxHyjI6tkt0SfxWzaIxjmLebGbVmM4o7QVYq7ogUbdOpEHatfcg9mLdBsUTnoqj0/k/SxNl02QIkxlPubehG+orJZY3A0eP+i36K+E3Yzb8iQtEp+PFC4dNbbPWxI+TfS1XHMvwGjDdDYeiwDGDJO84PGDnjIXzZOvprxQ2ly0D3TmpTj9XOO6sUR/kbDoC+4tnXIvYMHjDzreP/XeRgG8/0M2MAAeP+iRt5+L5oHaD6SYL3krxRdtXl+xzILCZ994tLHy9ln0T3r4umj9nFx3MJh7Nrln7/+ZvC+srwSPH/RA9Kctov+MRX9fwaObGXjxUXZ96rHoC77vj3V7AFKQ6Z1MxOuwjC8e8wqiAMIPEhb9cYugX5VWx1x0eIoXxcQrzvhRTSkMHh7grJeTAby+wgDkqoOrnH0z4V6DL+ZY2gHCD9IV/f0OQc9KPYKuRdXK3n6ueAvXodfk4clOpwN7lfQ8G1VPmwZg5UGffeLpfqg+YRtHCD9IFBLopoHaM558pRLiOS8GdNlIqHr7QcM8LERD3VCcxPa5fMaVaviHQz8fiNeD966hejVHE4Pwg7S8fRLopiUUKMSTl4xD12Bg3uD5JyX8LER7A3+1tGzDWnX3LM76mXgS/xNs4dhfkNUzPNEnz3fTIoK3C6XxDN6PFbz9jM+r8vk3yO/dC+jtq84pGBK0LlCmkv3DvYSlcL+71+28Dp+rlQJ4/ECNRYvon5dWx1woetEm3v5lBG9/1yi8/0zB898IPxk/ewL5/RB+EN3bbxuovSnEmxdW61rt8bIyOJtp3MoqoLc/EnHWrk+BIvbfOdjKs259iP8RUjwh/CCe6HcN1M55di6RK/YcygZFJ34eMpsnx9u/Tf3sHPj1KP5zZPlA+EEc2gY3r/nvqt7+DS3NXPq/7iBeSOHHAONrKH6/7sqx9yT+ewJZPhB+ENzbn4j2SUu5qbdvIq6h1t3nvP091IA7AvxRV+jFk/if8PsAPeA+imAw3n4T14X3rujt3xF+gzDPVcDnVhGa6kDzqvL/ER/l/x/0vD5Q3H+fc/kbxZ+FeuPQeNL1MKsXwg8CePuZ6FhRs/RzpnDK6oxbXS8u5NK9k5K4r/naJOxbF5uHsDDus5iN2Sgc9qRqPKWwD8/i7RL/lSPxP6TehjzvAi0zbZDH32/R79oB683qmBp5+M9Ka/jQ99aaYhdsty0azIyRQ85iWRypZxSdt4k/P4/qaqsqUPbYCGv3pw1i/P1m1hGWWGh6+3e+w4ZF18MNJsSxJg7J69Jm6rR0Mm1OQhPVHpLBFK8H0VPjhFcrbXsemtzlam2fPaE35wNA+IGmtz/r8Lx0J2DdWIZ5dhI2BDN5UK/qAYtoSkZARfyprrha1XOG9E4IP/Dn7bfFZZdFJo/GAG11fR0M1Bn0QkhE2Qh8gcX0JoFb6xR/rlMuBufh9UP4QQRvX1S8/Uzx1KvK/+Hx2xmBNcfXR4n0Ak54p66m+91yXXFhqOD1Q/hBYG//qgjZsJE4VjzvGh6/FwOwLfUCHkU2AE/b8vw5GyqH1z9skM7ZT7o8+HKXXnXy1Z34PhuM3k6OKk0m2lc0YEU66G3M3qMRoHezYPElgY0xZ4Dy/NdNKa9kpLj8ji2vMxNYUgPCD+xR3PrQRPh75+1zKIHuk0RqxMeRg/MWP16yMaCyIWOwcZVJlIABWHGe/6bFudhYGv895PWnCUI9/aOr+3xRWp5BaHhtVS931IOy+EQeL8Xr7QlPhPuc+iMuv1O+Du2Bu+HVMDOdzdA7DAAZr7PAZUeCvmyKw5fi/bbA44fwA0tvnwSiK69+Wfq8zho7G0fCH7KncBXhNRywkXleMgRWG5DzGAAJ5AMRdi+D1i0UOb/f9n4OsIYPhB/49fbvCL/Qy8rZOLrHkJkc6wTeCRkC2ubyI1sjwKmg9M4oAyhUCmjXFoqZg3vJ0HQh/MDM2ydB7fLgLythHmXhL+3MZWI0XPQUTFgl9prKRmBtukEJT6YaB+zRLJrCVjwGYLvk8glSOyH8wAyVSVjLiqGIsaBYyEHKVcLvi8qesmdoIbRcV/jY+yfxfxbgXlu3UOQw1LWD+gsg/MBDw1kZeuxO48o8FuEd9kYvE39vJKo0OLwxNAAU3vtA+A/9HLVN7hL2g7TI6YfwA00hVZmEVV1nJ2Y6ZshrL3ryGo0NAA+ykiH3HfrJW0I+C0sje+giCwpA+OHtN3v7uh7/pq/Cz4J03aN3WTYAmcZzrgOI/16HIc0D1GMA4QcWwq8jvq6FfxK4fBY9fKcksjQGsFLNAuK0T/rsucf7OmrK8uEZzTZef4amDOEHCmistZPScguHfA+hvP68Z17/HaEVr7OAco3nzTyL/7wlFGXj9R8iuwfCDxx6z5V0zBSWWwjdre/74OEpp4Cqev8+xf+gqTzZ67/qUb0AEP5eotJQqg0xBeGfhLwYD4Be9PxdUwroSjX271n825ZVnnuuzwDCD49f4TPVGawpdKdjNPBMxFnGwSVF7H8RWfz3mgTeckB9giYN4Qct8AbpKhOiNh4al+1m2XuaawW58PpdbiQSmxMO/ewrPLcv8T9pScFcmNYLm3WNAIQf3v5bVh6u7WIdnOBefyntcQjiT6GfjaJQuto2sUre8Pt5gHoNIPw7iapnVPXOR6l4rSGzewYq/hRy6Uz55N4OPbPr7KZar5+vZ9rLgPBD+IFtA6nM2CVcrJfjqhcRJdtmoOKfKYj/1MMzN1136dmhARD+nURlkTUXjXyi0ItwLRqhxJ+81csB1IVi0DdTeGbXxrY2w4czqUzq3wHy+SH8oIYvffW+anfYy5r0Nb0IUw54u8hY4r+NsMa9T1TEfyHcruq5J5rHa+D1Q/iBQ0aeDUaZJu/L1WBhHrswS2vcnw+gbswVYv6uB3ubehELh71MAOHfeVQ9oo2Dax167k1E9fpLYrjh1McHPTcASgO+wm2Y7bDuejyT98Zj/QYQfgi/J+Ev5gz4Ev5brz9Ghk+HAfi0PB6Jfs74LcR/v+U56f253MS9yes3Cfcgxg/hBzWMErjeyuH5D0Ri6+lw/H8hj6k87slfPRSvxwKoN9CHGcB7Xe+IF7Bz9Swu4/xHaOIQflAvlFF7GDzA63JA9LShZ5GKIVjRWAD1Bmj545IxOEvYEBwqLO+QuTI0DUs2GzkIyOyB8IMSobYu7BJ+D14/sejTu2BjkPM6+KmGhk7aMn045ONqTGNa13MyNIyI80P4QYkYnlAo4T+Shq2XSyiXQ0Pi9QAx9QRS2QegK9Nn5qj3Ng1UTwCEf+cYmX6xsi6/Vsig4fdLD8+XR+rVuDQCG+4JjLgXEHuSWOu2ieyVz11cp8HAmNS7CZo6hB84EH4b6uYASEOyEe7j27cilUqWjwMjsOBJYg8jG4DDjp285o56KM7i/ADCD+LT5IEtfIiUIw80JQOwKhmAWCGg06aQD3v9uQ/h53NfowlB+IE5tp7wtasGzSw9PedJX+P9CgaAem00BhBjmYh5W+/EgUA37Z2rO+9jgqYO4QdvsY1/b0wbdF34hcM9vkIYT1OY1evJAOT8LkOHf4461vNZeKqjazRdCD/oJ1OPYtHoofZ9sLdF/DeRFonLO/bMtb2XCYQfwg/S6h2sXAu/9PoXHoXrdgbqUMWfDcCcxTLURLDGmdIcj7c15HXCv0VzhPCDMOw7boDHLdk2Pgdjd0H8i81hQk0Am3V4/U4dDl6wDUD4QSTht+1yTz2GCFTEfzJg8d/yBLBnAS631+L1b4Td2MNeg1G5QZOE8AP/HHoQ/qzulz/7E991ESJQEauXQx3wLQkvCfKjyF6/7bvEAC+EH6QCC7SN53XUspiab6+/4Lm8h/mQ3xOnVvoW/0avX9in6WKtHQg/iEVDaMTW85o1GJWNCDfx6rF8ttVQZvhGFP+s4drkINiMN/gIMwIIP1Ckzjtf2YpFxyBvqFgurdu+GXjc37f4H7Tk9dt4/XXvBJk9EH7QY+Fv3GCbQ0l5wOcr4v7zoXr/AcQ/9KxsAOEHmmwceF4uutyN4i7Fn7z+0JuTPKbnkuI/HbD4+9oL+Fh6/aOaa24t3iN20YLwg4jCP2rwym2FuWuT9Bjr7NDEpBcc+x8NUPypvH0t8RDC69cJ9azQ1CH8wE6gR54adJvXTw33WaRnJm/zY/nciwEaABJoHytdZgEEGIO7EH4QwGsqGHtq0F1efy7iLsd7MjQDwOEXH+Gsw4Zwj3E96dj1C0D4gWevadLgkbvIvmkcVOWQUgox98IArIYw+YuXdzjz1JuowzQsaDPYvkJTh/ADOyYNv3cR7mmbBETiTyL1JJFyoBAQTf7achZQbz1SXtb5KlA9QYgGwg9iYrhv7mGDV+5q4O60LZTCWT4XCRUjGSvKAvqIjQCFgrIepoO67r0cexb+ieeeLYDwg65GJwWZhN/VZKuFgkhdJVguZAQoFPRcHp9I8d+wIZjRxLCUjQGHfJwOoH/m/Q8nKYgwj2UACD8oYZLS5ztd76htq0SO92ci/RUaD9gQPJXHSzYG64RDQ7njMk1hcbVLNHEIP3iXjUPhd7m2Tt4R8lmLfu6lSqucFqGhDfcGkugJONwkvbFnGMH7hrcP4QeOhH+vzmNlMXaVcklhk0XbB/h6j3pc9gfcGyADkKdgAHgHL1fvsKlX4yJMN1L8HOL7EH5Qw8rwe1kAr59CPnmH+C96Lv6FkTsV6SwT4crrP/DohY88128A4R80ph5R22bpLuPEp10rZg5E/AuhfBF7kThey8fJO2wY4N0Y3JOpgG/QxCH84F3R3Bp27Q/qvFM+n+uVGJddQjgg8SdoDCD2/gCuem77nsRYZeG2a976EUD4QQCvP3d8f3sqQjgw8adB4E3E7J+Fo/OMe1ivAYR/JzDtRp/UiTHvnuV62d9DFS+Uxf+hGMZm3IXBCy6e7CmnMlHuzmBwQ/jIZb0GEH4IfwdZIK+/MDSdnijPSCZxuB7AuyHxX0YK+7jw+icOzlEdDB5B+CH8wBJOizT1kNv2zPWx2cdJ2+SuyjORpzyECTwHMURMev0uZ2PbsDEQ/huejQwg/KAF0wHZg5YUxNzTvT5VWRmTBprlQR7n2QDeD62RNO9RvfAp/Cq9CHj7EH7guaG0ef2+NlB5rrossrwPMkBDiPs/jrAZfAoCWvXcxz25bwg/imCwHj9x1CJIuUfB1RH/FYcILnr+nuY9qhe3dcOlx88bvOz1pKcC4UcRpI2DvXPzlvPmHm/9uWoIhEM/FJb6QPR34Pcw5AYwlpuku7qHtaa3f4X8fQg/UGfhw+vnNfR9isdjlWyf0v0sWUD6GvvPA19vFfFZq/VmAm8fwg/S6ta3CZJvL/WElzxWSntk75/u94Hwk33kk4PA2z7aZMfUhfnGFteG8EP4gUt4MNbGM2/z+n3t7VqGJnmtdSY80TPLg0SUBn/7lPoZcjG3tePv6sxJeNPb+Mz7H+7zO27tISCNE8IP9Fn4+j572L7jxbc577oeMQ3+curnw570AI5DTeryIKQjQ8MxDVB/AYQfwm8YhmibYBUiREFZHzToqz3jlQ0A3SOFgJ6JtFNAQ3r9LgfDDxQ/V52ENVH4DsI8EH6gC2fh2Hq8jZuKcMjnSSivWLwO/UwMyoFCQDN50HPQwm8ppoFOAl5rY/i9O8stcDqmKitNQ3eBbB4IP4jn9bfunsVZPqGElLzLlzZr3NPCb5wG+unEjEAfhL8aJtIR/mXJYExFd/4+vH0IP7Dw+lcOuvbHHZ52JsLm0tMa9xubbBjOBCobAZoPQOGgWHnuBwGv5cqT1jFWKw1v/5o3kAEQfmBB7qLn0BLy2XJjDhlDL2L/K9ulD9gILDkcNGZDQAPDZ9wj8GUMrvj8Z3y91FlV/q+acVWdhNUl/BD9BLmPIugd1G2eC7Xp8W0eKRmQprV81jwQ/Dzws9EyAhT+obGMnNNYbXtJWxa5O0InrzHi8MaoFObY7xBACo9sS5727eHiPiOwNRT+N0KuGOaZo8mmx71Xr16hFHoGb3R+6uBUH/Bs2abrkPg/jfiozgzAUJHia1QXpNd+r3QOMnifKH71QeHxy++REThpe3/ysxneUnog1NNPyItyEYpZsOfb5C3PRdzceRKVjzn9c4LX7gyT5RZuv1cS/f0O0Rci/BIWAMI/XBxunL7XdR7OnY89cYrSPykEdDsIHHmz8yFgstzCraNQ+rnLkz9HCieEH7gnd+T1d24kwuJ/lcAz09gEjTt8Qou/tWw0A/wL/0yhfgIIP3Ds9ZM35Wrg7LFCOuUkEfEvoDDDC3nfWzYC6Amosyp+4IlbhwrfOeeloOk7mWhPWYW3D+EHHnEV6789V9siahxeSk38iT02AkVPgDKSaIbyBIaglupyC6q9prK33+UkwNtPHGT19ByHGT6Cjci4K4uG19g/6UkRkaEioduwp+s0/ZKNCxnMEf9Lxz7PIfCO9L5pjOZY4yu0fMK09H0qk67duGhQd8yfJ+P/suWzZ/KzEH4IPwgg/hvhbrYoCeWEPfyhiH8d1+LtrNeVxvdG4m3ef5NgnvO4SAjhVxHuMo+KmbQc5vlY8ztt1yPHYVSEhEC6YALXMKCBtheOzkXx3tsZtG3iT8LGBue0p2V2UDKWR47PvQr4HLo9i3IWl0qY57ok+pOOsppB9PsBYvwDgCdhudyshMR/oXBd6tI/whtoFVef3j6FmXRmcF9VhFmlV5I3/FzlEmvyQPhBeDLhdn2dY5X9cmlxNPnPF0Ta6+OH5KIrTBbR21+UjMZYdGfzlL39aZe3j1cP4Qfhvf6NcJ9NcaIo/jR4OhL92iLRFyG93rHFvakIdbk+taUOn2FbxX6Bwd2BQStcCvcxa5q5O1PxZB1nGfWNa1lGo1AXU1gr505PpMjmUVybh7z9EX++7Z2+yfgB8PhBPDLhPuxC4rJSyYvnuD8tS3y9g2WfB77exKO3P2PRH3V8PkOTg/CDyHgK+RCHGuK/4jDExQ4V/SWPd4Ty9kmQVVN4yXtflrz9LuG/LD4v2pcAR4gHwg8SEn9fWyiS+G/aZviW7mHLO2LtivcfenBTZ52ieeU+uzKBMjYSdI3jFuOQo7VB+EFaZJ4Ed489fyXhKXn/ZwMu6yc8wB2SieLnKOy30PD2yYvf8GcXLefM0MQg/CA9r3+r6RXqiv8LHshVuheO/T8Qw8v8ueAeVjBYlFWXaZiXcve7vP3rkhe/aPlshkXYIPwgXfEnL/SJx0uc8j65+4r3Q+vkkKf6cCAG4CqS56tq0Mkzn7OxGCl4+xl/NmsxLGel+D+A8INExd/3LlqUOrrR2SGLwj9sAGjWb1/j/0prGnlCdTyh7O137dNMgr7iiV1NPZgLxPWHAfL4dwRarliorbtuwzMphDODe8vY2zzqSXFGE32NhdXKefhkZNtW1LzNxecQ0qqhntw+M9bigccP+sUkgHf9mNfD15rQQ2mQpRDQeeLleB7R0ydUPe4iD79tkJagcNC01Cs4bPoMRB8eP+in1z9mj24vwOWekUiZCCRvAF/0Ag4SKb4bfp55rBtgEd8ovD9KtZzwd+h+H7d89gOK2XNc/3nDc0+Qrw/hBxB/VaiHMePVQ03vd8IGYBronmuFlO7B5QYuhsJP3r7KchgPOCWTyq4txPNMfm7W8bmHFPtHy4Hwg/6Lf5cg+BDOmW2uO88doGMSqCdwyV5+dOHT8PZvd8Diz69byum2V8CDuU2OwCMstQzhB8MS/6auvU/OWUg3Du5/zAaga7lg0/tcpCD4mt5+OcTTtiXjlXg7AWwD0YfwA4h/rwxAjSEo9r3VyWC6Zq+XxHIVceC2SfRHojuT53a/ZA7x0MDu07bPyWMrmjN4IPoQfgDx748BqDEGxWbo1Ulmt958Sl59i/CrbKheDNKS8XvZIvoT8XbjeYg+hB/ssPhTuGQh4g2eJhdaSUj06d107adcDNJSz2Dd8B4h+gDCD2q941VE8Q+6iUlPRF9lQLcYpG2bfNUl+kjZ3DEwgQvcwhk3JA6xllCY4y28Q1cvjAZppxB9AOEHtuI/ZkEJyZulg8Ebbz8T7XH926WReTbtokP0mwZy6T2PIPoQfgDx37JYhFw6YZ5aJk1k0R939IDeeOm87+5xi+gTdes0XQisvbOzIMYPGvnSV++3pQW69PZHEP43ot818aoq+nWbrVO4jgaFR6I+XHSGVTbh8QPQ5P2T1/lQuN+8Hd5+M6su0ZcH5eqvGkSfwjfFnIYXFdGn7z+E6AMIP+gS/xV7jj42TnmzUQi49fbJOz/sEn02DnWzlSk8d8xlWu2p0fsbYd0dQCDUA5ThrRZPHZ7SaP3+AYv+SYfoE03G4QkbhLq/I7QD4PEDY++fxOMLwl3WD7z9btEvQjdNKZvX/E5Ezd/pu1+A6AN4/CAV7/9cGpIMot8q+pR5Q2U0ayhr+juttU97HxzDywcQfhBC/Iu0Q5PVMR/EXt8+suDvc9k1if4Z/31RI+o3bAyKHP7yAO7tEtjIzQcQfuDbAJAI5UJ9uYed9vYVZtpmLOrLmjIlYf8ZefxcxeDe7hAmBR/hM9AJYvzAGk77HHHIQYWdDUHw5KxNg+hf8u8n4vUKm9VUzA/YYPzriuhTuY8g+gAeP4jl/Y84RNG03MCFNBTTHRX9pglxN2wMN1x21Tx+Evavy+NvV/52zl7+BjUPQPhBCgZgwmJWjf8/3LXllzm0sxT1YyE0QPsP5PHTNcaS/vbP5fHFyncvWfBXqGkAwg9SNQAzFrVLKfqTHRP9jL34aqye0jD/ljz+lHg3Y+eSDUV1W0kyBHMIPoDwg74YgNE/PvvJv/ntb37PP92FjJPSQmtVL5/COn9PHn+IDeKeguAjpAMg/KDXgkgePx23WStDEzPeBSsX76ZpkuD/PP/8xYrgf0Ue/10ef1W8jeFTj2DBHj7WMgIQfjAYgSSPd8xe7qrPPYEWwScB/0fy+BPy+PGS4JMhoPj998vjL5R+T+GcBe2fi1oCIPxgyEaAQhsZG4FVyRBse3DvYzZgVcH/N/L4NXn8qLgbtvl38vgf8viT4m1KJy2tMOceELx7AOEHO2UAKPtlysftYDAbglVKA5ql+5yJd9fG+Rp772UvnsT+N+Xxx+XxIyXPfiUGGO4CEH4AbMV1wv/usSFYs2CuQwpmjVEq+BW+JwrZ/Gm+z2+zAfiuPP6YPD4vXod8etWbARB+AGIbgmJzETroZxoEvSkZgi3/vHFhEFjoJ6Wj8Oy/ziJ+Xx4/wB78r/Px2/L4rDx+mL3/VXF/8OoBhB8AN8agMAIjefxFeXxOvA2v/I48flke3ykZhSr7fHyHhft3s8j/EXn8AXn8Kos5LW3yvSz+1SWp6XP/jUV+w4ZnhbcDIPwAhO8d/Dl5/DX2zD/Pf/pdLOL/hw0DHb8lj9/gn0nEKa3y++TxKTYY32Uv/t/zOTZ8bLECJoDwAwAA6AVYnRMAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAA4J/7KAJ1PvP+hxP5T677vW9948uTgPe4MvjaRt5jhjcMdrBNL+Q/JwZffSTbzKLlvK8Mznkjz7kP4U8PEscjze+cB77HI8PvQPjBLrIyFH5y5hYtDqIJ61APjVCPumewb1hBloFv9cri+QDYReE3YWL4Nx/3AuH3yNTgO9ey6xZa+LeG3xvjFYNdQ7bPjaGzdCCdpZHjthRM+L2HerhwPu5RXXgiK8O85vezHnj7RXfRJNyzb/BuM/nPqIftfS7f8dZhHZ86NJwTi+9uQ4YLakQ0V9SDRQJ1YFGK0ZPgHho6g3OHwh/s3YWI8Wc9EoTrukrJldWkYswjPIONx69sqDg0RM+31zPRv1QRKF0RSagcjiNdV3Usa2romPjUJRL+x4ZGel6jFQcG57py6Yx08V7gAk6dvKHwM8MXuYnwDKbX1PX4pz0U/dt37LhHm/W0HFxyo9EjTkEPvlJumxbh2EkfvX3vHj9bv42BGJlazaISmhTitiU9y6SyziNValPh162wU9E/yNtfpWxIespMxVu16Dm75l/V1Q2DnsgeZfBU6tRk54Wfrap2QXAuuqnwT102bk7NMrmXZaRKHaqXMY9o3FIqG1ce7N+Rx1+y+P4TESm+r9HeyDg8LP3/pW4vuqZnMTcwJt+s+d1KmIWgJuLuoGzyA7vehd+i62waA7zw4NGZNOzzkPG6qrGVZWjy1SNPjX3QuCgH9oRtRP+qISEhtbLalgXOoJ5uq+Utz+GqnZGjdmoo/MbtqFQ2QY12UumcpQFDE26En/jh1LASxeQaktwrbOvtHEVobZTWrCHaDlMxB8Zi4tZl6OdNLY8/F+YDZTPXXrbhwF2M3H0nIQ2LigvsnJ2ZxSmu25YOAFqY9t6KdtOLME9Swi8bABXaY8OvX3qq/H309m+7xGjDvcE2Owqi7w7b7B5Txyn42ExKMX6b7upC01tdd/UOOO56HPg5XLE2vPdJDO9jx8ktvnsjEOZJweOfcq+tNx5/EsJvO6Arj+ea3zlTaHAm3n6s3H14/D2EZ/weWJxiGSuJYIhwYsS1wTuh5Rt+1PBdXsd4h+8lUPltBnRJaKnx6K61kTn6TIrevk3XEev1hGVm+f0cRZiM1//XA7fV3nv8VHlNY5yFOC/k8VTTQmdN4wI83mAy0eS5/O5zT+X0QLU3wSlv99CGk/b2x8Ju6YKLRHqXfX8PI+FmLbGfMvzecc3a/c/ku535fO73Eqj8pgO6z0q5rwsLo+HK2/fJORo5vP1Ee5d9J7UZ6DchenKxQz2mlfe6XDgcI7vQPMdRy7KqWWIVYYb2OTgv88TiFFeYQJeMAXauiSFi/vcjVv7Moqub1RQOef26mSx5VeS5UabkTa0xgDc4bB0LePvuDPBGvDvv5X15/MGar9hsVvRr8vhO5Xffrfxu62Hl2FruvXr1KkaB73Nhm8T2L3hAt+68W81zkjc9grCCntT9296urK+jgZSFrvhcVvev5nW9dB3IhyY9JsN9dK2u6YtYoZ6ZYcXvWpZhoXk+uoepACAcmLAFdk/4uXt1avj1rmUZTLrAOaoBCIhNfcOELeCEGDF+U4+lc1kGnoBBOf06qZgH1TW1DUJGj7ruzSBtTKlLzzOWXzp8P+90p4EzpwcTtsDuCT9XfJMBXZ2VN8kj0s2lp3OvKsbpseb3uwyarqeXa1w7xLvTNYZ94kGgdFnbDJIT+R5OIpdVeSXJLHCa8Ug+f7VdjATQJliox3KG7lyjgi0NG9SoYjx0OOI5CW3evk6DVVpxkct0GuDd9XWbRRWCzJFwMGErFY6K54gwt4R6S6eV40CAdIWfvR3TTYiVvWXuCp8bXCcrnYMq9IXB84X29klM1uyF1R2uyAbcBvKA9X9IYKyhxwQJ9VgO6JqIzlLoT5DJKiJAFVtnXgD1GvKqF2Tg7d+oLjHN4xKTlnJ3lau7r2lITD3by5puvJGzINQWqlsG8vZHwm7CFuV6f02Y7V/d9D4fW3w/1p4TW/HuulyHwi6/HsLvkYVpBaNQBocavHcjy+v3kKgaDBRnNR6kruFKzpPSGezl8NMnhmIyqZwrN3QYZonNbLXtMf2Uy/0mauLkqfaS6nr/1TqyEsMIoQ1L+C0GdIV4G9ML2UAXFRHWGSieyed9M+XaYHelIaTrma7wuR5iA0t0hy2b+7kRaWw2BCx4L0Cl75OQ3Vm/hxuczv611QlhuhPV5gNI15sYfm890DaW1IQtw+1Eh1ZHIfyez286oBuT3LLh5Rae3hAGzHqzC1Gk+iQi1wnb+1kI0Ht8h3qWkRs0eZ+6oSIaU9gveTVzTc/9gMNb+5qe1flAPCmEet5617YTtpzWCZ7sZ3s/G8gmhL+V0nr5sRreWuiHW4pwzYKfYSvPo5slRNccBfbEUhC6fUNhuRlo+CC1HbZS632AgXr8UWHRngv9uPO4psHoCL/uYPZQPCl4+2+NoO2ErUuXdYLHrmzvZy0AhL8n4p87OAetAXQp/KWN5QMp7onh91bw9uHtAwh/nfdkMknD5SYm1HBeeni8ywHFTUfw+J1M2Lp2OQ+BQ3C294MUTgh/cOaG3vZDV94kT+ii1E7XWUr5gOoTQj2vyRKrEzPUUVDmPRRB1AZwObC9Uw8NvnMzpEwRBxO2bjBhC8DjTwhqkDxY7GqlysF4UpwqCG/ffsLW3PF7yQQmbLWVD5X34wCXeimvpWpox76dIXj88Rrm1cC8fUzccmPMMWErLFlq+hKiBwzhj9cwh5YlYSr8m6EUACZs9e592faGXBNsrS6EejThuQG03r9tlsTQPCkM7KY3iGp7P0NP4RwJ9eXGf0gen7Pt5Yv25cKDhdUg/OYN9CShBp4CJgO7YiiTghxNkNo4vp9jy/sZ9IQtnTk+sjxdvJttKvtZQ/jNKozNhK7Beftt2052icvAnIGUvH3b86VYR48cbi6kU79tQ3jl+5+kMLaHGH/4bvBigGWx02EeRxOkVo7vZ2p5Pws08Te43AgqifAZhN/c66fc5mvNrw1hoxUI/7ukGNtPJqV0x416lUMeVIbw9xjdiS3bgeZE73pGT2oTtmyE5SbhXim1ncvK4bs9+dj2NY9dkMFj/AEnTBCqkybKPFAZZGNPQLeB3dnXd0AYDWoOYR6DiwlSHu7HJh69SNg5ibHn7szDOaPrQAyPf5pwO9bJWzbtTs/EgLAY2L0aSBHYem+uwypI4XRXt0fCMFstda//fuCCdDU6nkIjNu1OH6Yysu+InY3vO5ggRaGKsUGvtO1d2AgVdtgK56RF9fpDh3pGwiyFb2zoXXdNmCizUq30DrrTVKGGIvyjXRV+B14bhSheJvQ8CwFCRifyWGUeVPilsM5NupIWcbyZJ8/atsEfUzdyIN7VZBeF38GErdQY2kqxMaITZxwJUP1eNK8fWT36FcLW23dlPFLBKNQzAJHJB1a14e3be/sLg3ox50SR4Xr8A8FV3G9KL7zP6Z3s9ZqG4PoOPXsqM4+pHf8Zi/aMCVt367VJ7v4F9+Bp6fZcwzncY03JQ1cYoF4hJsLdKP8edwv7nEWxs/n7qay5wvWSROPPWpwCmTz23v680ht8ruNMUpp7SCcQoZ643fu+p3ZiRc40yCy+m/KErb706u8sucG9J51Z/XuhtQDCr+ftux7MO0hh+rYFpl7vCjXKWb3MxHAnbMUoz5FBr37uwEmchYz1Q/jje+d9Fn54/P2vlwjz2JVnbY8pda8fwq/uBRx7Ov2RxX61MctkX5gN7F7Dw3TaC8WELbfoxveXLfU5Wa8fwq+G7gvUXbWzj14/vP3+e/sLFOEdQ2qSu9/YY0rZ64fwq3n7Oqld1wZCfsLX6ROmvRQIfxq9UEzYsvf2rxR2KTPx+r1rAdI53Xv7lJa1Mtihayb6leWTssevsiorxWZHPQ47wdt3a0hNcvc7x0fI6zfI6899RwEg/N2VQccLKA/0LDSFP6MK0iMh6nuoZ95X0TdcEvxOrzTkhC3OPHru4FQ+t17U9fZ19lHINZ//hLVg4+udINTT7VXpDGC+ERPD+N60D4XCwmOSQniTyGBi33dCy0S/dtjKetLWvfSYDLTAJNIAj9+huOlUhjoxoRd+qvmy+9AFD+Xtk5HwsSzCsueZRVY7foWsY31YzM5h7n5vvH4Ivwdvv1I5dM5DE7qmvJ9vsvCg4L0A11kIxKKrIpWJfk3YGgu/axqRYO87aOs6XOoKskGsvzAWXnpLMbZeJOs60vya6Ys12eRizQ3DuutH55HXJxE/0ayESQs/iIqtEAQN87AT460+O9p6cRqoDE28fiq7JkO9Me0RxPD4qdCOA13rqUE3eGSwj2rbRJhcU/hpAGuskCYGds/bn1iKHCZs1Zepjhd+bdojN/T6X7TpFe/rod2Dey9wIe8HFH0jo8SFmBtY8qaXTQ3twnPXE8DbN+qVAu0ytS1Dlz2uPdP7CZ3Vk3LWClny3CCGquJF6b7sPk7oAn6dppHQzzMvgwlb9Y6oribZCv+CIwuuOOYZx1rECPWcJVoPVob32FkReEIXbT6ikzmQiTi7PI05brqLUMw0axEKeh+TSPf2Q5bf/2yA9zpPPTGhwr6mU7axDZXxuB/VsbHj59Di3qtXrwQI4l3Qy9YZ2KGc933La+Ll6vGoaVIOe4efoIiae8wkZqHTZA0Hdx/ueu8HE7gCwYKi08Xb6/la/b0Tro6ZmHgX7eRYdRXCDxq6wrqNCUUWTrg6/o4B92YusWdvv0CoJ2y31CRc8BCDcgA0tilqGwj1aIKZuwHhgR0aOJ5ofI0+C+EHoB6T+S47H5KCxw8AADsGYvwAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAFACyzKDJPjM+x9OxOslqGnPgmI/0g0ftIzuGvsSAOCGpJZllo1/zI1+5PC0WykY85rrTAM91p3rlwQu6LV5G8e2cl3Kz6413xedL2v5yKpNrLksaGerY43LXtC98v1uPdbF4j2NasptzQZpMMaI3+WE25/pRuAz3TqkeO0Nl7m38uZNkial+3inLvP1lwrPMm3QsS0/x9KknAYn/CxKJACHni5xLgs642vRS3kR+BGfyevPDDZcd8ETEn95bWo8Bx2fVd6ZiBsKnXOvTaTl+aYNBp4M0pHFc9H+xXN5/tyx+M3YmO1p3MeS72UtegbXyczyXZTLYqJaDobXdlreXI/nLNYq75w2lc+rW02yo5BrPMulqaF0wXuRK90+b5323KPoEyf8YoSIs49tYfnnEa69r/HcmY53p9BQ5jXvnO7jIwdCQ9c+ledbsyGxrYd0Xx/L47GG6Bf3cULPRHWZjUcfBH9cantHjk67p9KTprZI783w2tXyHluUwZSdlxONd07O03P53SUbDToP1fOXms9yxM+QxXj/70WsePvcfToKfOnDCI+7LlXaKLCHcq1gIEcK744+c9rl0ZR7DyyuS4XvmbzPlWkDYuFYObovqsvrWI1Z45ldGV+TaxcieeiovD/i5zHp6bywaJPHXO8W7CyY8jxGfYnp8a8iifCuUQ7dqDQQ558pGfljT8+4Z9KA2ONzXQ+Le5mnWBlYqE4jXLcw/I89nP6Un0v1XibCTcj1kHsLtjwvRSSGK/xsoXdJ9Fcp3IQLr5//1lXZLytjBfNA7/u5ate/NNbjqxf2WF5jlqDon0S6/NKj4S/q7UKhDMgJWSSoEUHv6b0IlU8lTOCDrdhNNo49el1vfxZYbN7EXlvq4DhQQ3sa2pPrcLZOIl2byjpEWOlEoadF9fEgwXZ6EDLkE8PjzyJc81HEjIuriCl/lFWzqfG8bky8fhaxLvG4Lp6Xz5GHbkDcuLs8vlDjLYsuQxRAeCcBna1tTc8qpMF53GFsk+qFxbq3GBO4VIX/kkMEtp76VlP0z4S70IzutZ+ItwPB1p5+jehTuGfLXlGXEOQ170q3t5BrCuwNP39RBkUutK6HRqmz84Y8f59pw22GKI8oKKHCCJeVOSuxwipzUZOLzx71nqIGLLm3POF3p1tnrvl7hZZM+L7arn9IzlJdu3VN0Dx+rgifKHqqU0/30PrA8rr3PD5/tGvXvIeNQiN4UFRC9qJeKnj7o5K3/7GGkc+bekaliWIzoW5IntRM3NO5p6oxEiVjtGdwjpHPCWct75rKTWcg84rFyuRe7xhbDi+dWl57zKKpW+aPanLtFwq9j3fmspSSEw41nmNSfd+lDLI9nXo7BI9fNec2RjhoZzD0+nW9fdVu65vJdS33S8Yn53umxqsySDgT784j0OlKn4uGSUIGhqjIb4/h/ar2NGhG9MyVt8liqVrenZOZDCZIZTXl3eVMntU5H9xe6HwfqfY464w8PZ9CuxuHqBQpLtJ2FcMz2kHmQi3WP+YB2q4Gd13xsFR6bJ2iX22A3BM8Vwmx1IxTqFzrhr2+rEmISBx5xvCIBVOFaegXzGKpEiYjwZs6DjGozoSlOtA525cEmT5Hnrzi9Y/K759/1p5wWBZt9uQ7jVjHmF6X8d9Z4QeBvH7xOo7ZBXk5T3U8S25kXYJzLcwHs2aiOy31TiPiQUYVIcpUB+NLhuhS4ePHEV6zqvHNI137Qsfwc5kvNMR/Uvp5pHAvXQ6nSntZKPRe2wxIkPGnFIX/sC/T3geAqwZf9fZVvJbctGfH31MxGuMGEWhr/EuDW1ISL9ulJQzoeuYb4S+T5Fjh2pnh+6e69szx+1cx9kE+EyILLKjwa6Q1LmOlwMVOvQv8PjaKYRNdA6IicEvLe18qeP0jXWPkuRxDOzRd3uPcR1hV0cAtLK+t8q50DK1KNt1WsS7Ynse7gxAjnfNKoULS39ca07A34u0yubYVea4z/btaeWyuzwM/RoJoMVeAGpBNnnXV21fh0pHgrDruvSy0KmMUNqm0S4VyHNsaPNfi6+ny+76vzQOuFx09Cx0nTkXUSZNaP+LQyAxO+OmFq8SMKUZ8alDhL9iTMRXCEwshPLMMnzwWhmuZyOd+ZCDAtx6K/O65xTObPK+zuQoO66XtPa1EWnSJ3rXHfPEuo3PjaELlqkP4D1XvydH9/LYrI+ObGDF+Eqcbj+enivCSvPZdCttYhhFMjZWJt++y4rv0nKzO1cNMtI3Hc+8Hem9rh/e0UwQXfm4geYBLkQe7Ciz+m4jvcmXxTui+Lw2+mkeuv0j7TcNo4r1B+JWEhmLZFwEuRV29ZcBHiyn8ttfWFXFTbx+kQUzxXQ+gvUH4DcmE2oQIW45MNmowNGirWIVpG6/le9fx+vME6u8ETbiXjBI7D4Q/oFDR5BcacHkW4HKzACGf64jv8dLReVTF3Nbbd5WuhrhtP40mBHuHPf7CANAEkofCTT55EzRj0/eSp4uIxbhw9C5UvX5bb9+V8HeJF2LJaRpNV8I/xms0434KN8GCQ0emuHHFfumlZ0JtPZKpomBR+ElnXGAjXufvu4hb0rjHWvPaK8dpeTT+cqRwXRtoHZ2xTZnx7O6u+SBrNPFGaIb8vqdsJGrLpx3v38Xyw13Cf4nXnLDw1xgBFZYsAHOhtmTqoWK4ZxIrNc/XUtSabAM0/KLXYPO8maJh3FVUjF6sFUOL92fbc5wKYETvF2nTWLdFqWuIlUGdoCK4x7xwmqm3r/LOV7v6Arged82XyT1dXsXoWI27KW6qskJTHKjwl3oJ13idybyPjeL7WOjuSctisVRo9FchdjLqudd/oLBHranR6Xr/9P6Mrs11QOW7EP4hCz9IEpVxEmr8NMt6ruL9sZEgMVNZunaBV6D0Dh7zfguuURHdE911sUq7YXUZ/puY6dWpc38ID6G4/jsIC3lkqusOPWYBuuBGXfVUKUSXCfW1ym8g/G+EX2VdrKccdps5SlIoDK/K+k8nvKBc3rUkNhv+hWJbx/sfuvBrvOQNXnkYDBd/OxZuNiyZY6zmzTugzBaV7QrpMx/Jzxf73m6EZlZU2cOmn+W5rhVFmgz6C/n5G/F2k/PiIKNAjt1U07mboxUmKPxs5W1zialCzBQ9wWtuCF33lQs3scGNboyZu9wuPK51IsKXC/Ut+Fxx5WlHqb5CZfFS4/OHwnAXKDL0lR216No6G73vCbslwgueYXwnQeHnEfnngS+rmpt/KgyWg67hXOjvMPTU0bM+E/4nrKl6nLnD5+rCeFen1ODwZc7OzVYYLjXOnreq128LhW3WvBbX7U5Z3NaPAhbdtUhjOZGkeS9ChR5HEP0YXb+YOcbJzGhkETgPdDmXMerYor9m75dEs1hqfGpRF28C3X61F58FvPbtsyLMl6DwizhTxWN0/WIK/yylSsbdf9/i/2hAq4WSx1oXHlsYlj8J4SRWry9gL+xRi+HfCBBV+ENzFaHr9yxiKtmTFL1eFv8zD6cmb/JhIqLvyrNtchr2TDds5zrxKLD3XVx7GeDaXYYfwr9Dwk+iH3oJhiteeC4Gl0V8NUV40PWhcLccN8Wux4pGtmtCkZNB9Y6/q9bDPR89ZhbGiYgw2dHjtVUN/9aibpRp217xm4rn2MmtF4OJYIPo+/Q6Yg4u3ogerF1CIs3LcT8S5otoXXJjn2iE8BYdxtrFhj2Ljvejeo2mTYqsJyWx5x9qOfSma7vq+VH4cKRYJsuWtq8TEfiFlr/9tEY5NDk/1yGiBTG2XlwJv/HeK+72NXn6vkICJEbTjjDLucdrj/s0qEUeGr0j+eMDeTxhsbtqEc1L/twDfrcrzevlbGwu+FyX/PMT4Sj+zV5n9RqX/N51jFTuQKDa7nPLvdIHfG+unKFO48bXzvnaZ4Y9gHM2/Jlqneeyn9a8/w90woS8kOIvsNdeHN+Sx9+Qf/uPGs8w4ed4p56EaH/3Xr16FaXhc866y4FeerFKSxRzitnI4bVXKkLE082nMa6t+W7alkW4SGQV0UHDs1SpjRyzQZz7HMfg601KwmOSgmk0wM7jFhPxdrIWHQclY7Iu2jcZFmTt9Fj4AQAAxAGLtAEAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAAhB8AAACEHwAAAIQfAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAAIPwAAAAg/AAAACD8AAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAADhBwAAAOEHAAAA4QcAAAg/AAAACD8AAICB8v8FGAAP5Yw6mPRasQAAAABJRU5ErkJggg=="/>
+                </div>
+                <span>北京致远互联软件股份有限公司</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">概述</h2>
+            <p>本文档提供OA系统流程发起相关接口的调用说明，包括获取Token、上传附件、发起流程等接口。主要用于第三方系统与致远互联OA系统进行研发项目流程对接。</p>
+            
+            <div class="flow-steps">
+                <div class="process-step-card">
+                    <span class="step-label">第 1 步</span>
+                    <h3>获取 Token</h3>
+                    <p>先完成身份认证，拿到后续接口都要使用的 `token`。</p>
+                    <div class="step-meta">必需步骤 | 所有业务调用前先执行</div>
+                    <div class="step-links">
+                        <a class="step-link primary" href="#api-token">查看接口</a>
+                        <a class="step-link secondary" href="#complete-flow">看完整示例</a>
+                    </div>
+                </div>
+
+                <div class="process-step-card">
+                    <span class="step-label">第 2 步</span>
+                    <h3>上传附件</h3>
+                    <p>如果流程里需要附件，先上传文件并拿到附件 ID，再带入表单提交。</p>
+                    <div class="step-meta">按需步骤 | 无附件场景可跳过</div>
+                    <div class="step-links">
+                        <a class="step-link primary" href="#api-attachment">查看接口</a>
+                        <a class="step-link secondary" href="#complete-flow">看完整示例</a>
+                    </div>
+                </div>
+
+                <div class="process-step-card">
+                    <span class="step-label">第 3 步</span>
+                    <h3>发起流程</h3>
+                    <p>整理表单字段、枚举值和附件信息后，调用流程发起接口提交业务数据。</p>
+                    <div class="step-meta">核心步骤 | 根据表单类型选择对应报文</div>
+                    <div class="step-links">
+                        <a class="step-link primary" href="#api-process">查看接口</a>
+                        <a class="step-link secondary" href="#complete-flow">看完整示例</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="section">
+            <h2 class="section-title">接口环境</h2>
+            <div class="env-info">
+                <div class="env-card">
+                    <h3>测试环境</h3>
+                    <div class="endpoint">无</div>
+                    <p>用于功能测试和联调测试</p>
+                </div>
+                <div class="env-card">
+                    <h3>正式环境</h3>
+                    <div class="endpoint">暂无</div>
+                    <p>生产环境，正式业务流程</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">接口列表</h2>
+            
+            <!-- 获取Token接口 -->
+            <div class="api-card anchor-target" id="api-token">
+                <div class="api-header">
+                    <div>
+                        <span class="api-method">POST</span>
+                        <span class="api-url">/seeyon/rest/token</span>
+                    </div>
+                    <div style="color: #283593; font-weight: bold;">接口1：获取Token</div>
+                </div>
+                <div class="api-body">
+                    <div class="api-section">
+                        <h4>接口说明</h4>
+                        <p>获取访问其他接口所需的认证Token，Token需要在后续接口的URL参数中传递。</p>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>请求头</h4>
+                        <pre>Content-Type: application/json</pre>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>请求参数</h4>
+                        <div class="code-header">
+                            <span class="code-language">JSON</span>
+                            <button class="copy-btn" onclick="copyCode('token-request')">复制代码</button>
+                        </div>
+                        <pre id="token-request">{
+    "userName": "dangantixing",
+    "password": "fcb6f8a4-02ea-4d7c-89bd-4286fc846db5",
+    "loginName": "人员工号"
+}</pre>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>响应示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">JSON</span>
+                            <button class="copy-btn" onclick="copyCode('token-response')">复制代码</button>
+                        </div>
+                        <pre id="token-response">{
+    "id": "fcb6f8a4-02ea-4d7c-89bd-4286fc846db5"
+}</pre>
+                        <p>其中<strong>id</strong>字段就是所需要的token。</p>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>Hutool调用示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">Java</span>
+                            <button class="copy-btn" onclick="copyCode('token-demo')">复制代码</button>
+                        </div>
+                        <pre id="token-demo">import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+
+public class TokenDemo {
+    
+    public static String getToken(String baseUrl, String loginName) {
+        // 构建请求体
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("userName", "dangantixing");
+        requestBody.put("password", "fcb6f8a4-02ea-4d7c-89bd-4286fc846db5");
+        requestBody.put("loginName", loginName);
+        
+        // 发送请求
+        HttpResponse response = HttpRequest.post(baseUrl + "/seeyon/rest/token")
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .execute();
+        
+        // 解析响应
+        if (response.isOk()) {
+            JSONObject jsonResponse = JSONUtil.parseObj(response.body());
+            return jsonResponse.getStr("id");
+        } else {
+            throw new RuntimeException("获取Token失败: " + response.body());
+        }
+    }
+    
+    public static void main(String[] args) {
+
+        String testBaseUrl = "http://127.0.0.1";
+        
+        try {
+            String token = getToken(testBaseUrl, "员工工号");
+            System.out.println("获取到的Token: " + token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 附件上传接口 -->
+            <div class="api-card anchor-target" id="api-attachment">
+                <div class="api-header">
+                    <div>
+                        <span class="api-method">POST</span>
+                        <span class="api-url">/seeyon/rest/attachment?token={token}&firstSave=true</span>
+                    </div>
+                    <div style="color: #283593; font-weight: bold;">接口2：附件上传</div>
+                </div>
+                <div class="api-body">
+                    <div class="api-section">
+                        <h4>接口说明</h4>
+                        <p>上传附件文件，获取附件ID，用于在发起流程时附加到表单的附件字段。</p>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>请求头</h4>
+                        <pre>Content-Type: multipart/form-data</pre>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>请求参数</h4>
+                        <p><strong>URL参数：</strong></p>
+                        <ul>
+                            <li>token: 从接口1获取的token</li>
+                            <li>firstSave: 固定值true</li>
+                        </ul>
+                        <p><strong>Body参数：</strong></p>
+                        <ul>
+                            <li>file: 文件内容（form-data类型）</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>响应示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">JSON</span>
+                            <button class="copy-btn" onclick="copyCode('attachment-response')">复制代码</button>
+                        </div>
+                        <pre id="attachment-response">{
+    "n_a_s": 1,
+    "atts": [{
+        "id": null,
+        "reference": "1",
+        "subReference": "1",
+        "category": 0,
+        "type": 0,
+        "filename": "org.log",
+        "mimeType": "text/plain",
+        "createdate": "2020-06-18 20:10",
+        "size": "539",
+        "description": null,
+        "fileUrl": "-6868977902039185387",
+        "extension": "log",
+        "icon": "file.gif",
+        "iconFont": "defaultICON",
+        "genesisId": null,
+        "sort": 0,
+        "officeTransformEnable": "disable",
+        "obsObjectKey": "",
+        "v": "0bdd72df87561f67ef466e9d91e31554",
+        "new": true,
+        "extraMap": {}
+    }]
+}</pre>
+                        <p>其中<strong>fileUrl</strong>字段就是文件ID，用于表单附件字段。</p>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>Hutool调用示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">Java</span>
+                            <button class="copy-btn" onclick="copyCode('attachment-demo')">复制代码</button>
+                        </div>
+                        <pre id="attachment-demo">import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AttachmentDemo {
+    
+    /**
+     * 上传单个附件
+     */
+    public static String uploadAttachment(String baseUrl, String token, String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new RuntimeException("文件不存在: " + filePath);
+        }
+        
+        // 发送请求
+        HttpResponse response = HttpRequest.post(baseUrl + "/seeyon/rest/attachment")
+                .form("file", file)
+                .form("token", token)
+                .form("firstSave", "true")
+                .execute();
+        
+        // 解析响应
+        if (response.isOk()) {
+            JSONObject jsonResponse = JSONUtil.parseObj(response.body());
+            JSONArray atts = jsonResponse.getJSONArray("atts");
+            if (atts != null && atts.size() > 0) {
+                return atts.getJSONObject(0).getStr("fileUrl");
+            }
+        }
+        throw new RuntimeException("上传附件失败: " + response.body());
+    }
+    
+    /**
+     * 批量上传附件
+     */
+    public static List<String> uploadAttachments(String baseUrl, String token, List<String> filePaths) {
+        List<String> attachmentIds = new ArrayList<>();
+        for (String filePath : filePaths) {
+            try {
+                String attachmentId = uploadAttachment(baseUrl, token, filePath);
+                attachmentIds.add(attachmentId);
+                System.out.println("上传成功: " + filePath + " -> " + attachmentId);
+            } catch (Exception e) {
+                System.err.println("上传失败: " + filePath + " - " + e.getMessage());
+            }
+        }
+        return attachmentIds;
+    }
+    
+    public static void main(String[] args) {
+        String baseUrl = "http://127.0.0.1";
+        String token = "your_token_here";
+        String filePath = "C:\\path\\to\\your\\file.txt";
+        
+        try {
+            String attachmentId = uploadAttachment(baseUrl, token, filePath);
+            System.out.println("附件ID: " + attachmentId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 发起流程接口 -->
+            <div class="api-card anchor-target" id="api-process">
+                <div class="api-header">
+                    <div>
+                        <span class="api-method">POST</span>
+                        <span class="api-url">/seeyon/rest/bpm/process/third/send?token={token}</span>
+                    </div>
+                    <div style="color: #283593; font-weight: bold;">接口3：发起流程</div>
+                </div>
+                <div class="api-body">
+                    <div class="api-section">
+                        <h4>接口说明</h4>
+                        <p>发起OA流程，支持两种表单类型：研发项目通用表单和研发项目变更表单。需要先获取Token和附件ID。</p>
+                    </div>
+                    
+                    <div class="api-section">
+                        <h4>请求头</h4>
+                        <pre>Content-Type: application/json</pre>
+                    </div>
+                    
+                    <div class="note">
+                        <strong>重要说明：</strong>
+                        <ul>
+                            <li>涉及到单位、部门、人员、枚举都传编码做绑定</li>
+                            <li>附件控件则传附件ID数组</li>
+                            <li>枚举类型需要传入枚举编码</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="process-form-tabs-root"></div>
+                    
+                    <div class="api-section">
+                        <h4>响应示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">JSON</span>
+                            <button class="copy-btn" onclick="copyCode('process-response')">复制代码</button>
+                        </div>
+                        <pre id="process-response">{
+    "code": 0,
+    "message": ""
+}</pre>
+                        <p>code为0表示成功，非0表示失败。</p>
+                    </div>
+                    
+                   
+                    
+                    <div class="api-section">
+                        <h4>Hutool调用示例</h4>
+                        <div class="code-header">
+                            <span class="code-language">Java</span>
+                            <button class="copy-btn" onclick="copyCode('process-demo')">复制代码</button>
+                        </div>
+                        <pre id="process-demo">import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+
+import java.util.*;
+
+public class ProcessSendDemo {
+    
+    /**
+     * 发起研发项目通用流程
+     */
+    public static boolean sendCommonProcess(String baseUrl, String token, 
+                                            String subject, Map<String, Object> formData,
+                                            List<String> attachmentIds) {
+        
+        // 构建主表数据
+        JSONArray mainData = new JSONArray();
+        
+        // 表单种类（枚举）
+        mainData.add(createFormItem("表单种类名称", formData.get("formType"), "ENUM", "4951945961220885548"));
+        
+        // 文本字段
+        mainData.add(createFormItem("项目名称文本", formData.get("projectNameText"), "TEXT", null));
+        mainData.add(createFormItem("审批编号", formData.get("approvalNo"), "TEXT", null));
+        
+        // 组织字段
+        mainData.add(createFormItem("发起单位", formData.get("initiateUnit"), "ACCOUNT", null));
+        mainData.add(createFormItem("发起部门", formData.get("initiateDept"), "DEPTMENT", null));
+        mainData.add(createFormItem("发起人", formData.get("initiator"), "MEMBER", null));
+        mainData.add(createFormItem("发起时间", formData.get("initiateTime"), "DATETIME", null));
+        mainData.add(createFormItem("责任单位", formData.get("responsibleUnit"), "ACCOUNT", null));
+        
+        // 项目信息
+        mainData.add(createFormItem("项目名称", formData.get("projectName"), "TEXT", null));
+        mainData.add(createFormItem("责任部门", formData.get("responsibleDept"), "DEPTMENT", null));
+        mainData.add(createFormItem("项目负责人", formData.get("projectLeader"), "MEMBER", null));
+        mainData.add(createFormItem("项目开始日期", formData.get("startDate"), "DATE", null));
+        mainData.add(createFormItem("项目结束日期", formData.get("endDate"), "DATE", null));
+        mainData.add(createFormItem("研究方向", formData.get("researchDirection"), "TEXT", null));
+        mainData.add(createFormItem("项目分类", formData.get("projectCategory"), "TEXT", null));
+        mainData.add(createFormItem("研发形式", formData.get("rdForm"), "TEXT", null));
+        mainData.add(createFormItem("项目概述", formData.get("projectOverview"), "TEXT", null));
+        mainData.add(createFormItem("申请理由", formData.get("applyReason"), "TEXT", null));
+        
+        // 附件字段
+        mainData.add(createFormItem("附件", attachmentIds, "FILE", null));
+        
+        // 金额和项目类型
+        mainData.add(createFormItem("研发项目金额", formData.get("projectAmount"), "TEXT", null));
+        mainData.add(createFormItem("项目类型", formData.get("projectType"), "ENUM", "-6444298540865206932"));
+        
+        // 构建完整请求体
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("templateCode", "YFXMTY");
+        requestBody.put("subject", subject);
+        
+        JSONObject formMainData = new JSONObject();
+        formMainData.put("tableName", "formmain_18922");
+        formMainData.put("data", mainData);
+        requestBody.put("formMainData", formMainData);
+        
+        // 发送请求
+        HttpResponse response = HttpRequest.post(baseUrl + "/seeyon/rest/bpm/process/third/send")
+                .header("Content-Type", "application/json")
+                .query("token", token)
+                .body(requestBody.toString())
+                .execute();
+        
+        // 解析响应
+        if (response.isOk()) {
+            JSONObject jsonResponse = JSONUtil.parseObj(response.body());
+            return jsonResponse.getInt("code") == 0;
+        }
+        return false;
+    }
+    
+    private static JSONObject createFormItem(String key, Object value, String type, String enumId) {
+        JSONObject item = new JSONObject();
+        item.put("key", key);
+        item.put("value", value != null ? value : "");
+        item.put("type", type);
+        if (enumId != null) {
+            item.put("enumId", enumId);
+        }
+        return item;
+    }
+    
+    public static void main(String[] args) {
+        String baseUrl = "http://127.0.0.1";
+        String token = "your_token_here";
+        
+        // 准备表单数据
+        Map<String, Object> formData = new HashMap<>();
+        formData.put("formType", "7"); // 研发立项申请单
+        formData.put("projectNameText", "2023年度研发项目");
+        formData.put("approvalNo", "RD2023001");
+        formData.put("initiateUnit", "单位编码");
+        formData.put("initiateDept", "部门编码");
+        formData.put("initiator", "人员工号");
+        formData.put("initiateTime", "2023-10-01 10:00:00");
+        formData.put("responsibleUnit", "单位编码");
+        formData.put("projectName", "AI智能分析平台研发");
+        formData.put("responsibleDept", "部门编码");
+        formData.put("projectLeader", "人员工号");
+        formData.put("startDate", "2023-10-01");
+        formData.put("endDate", "2024-09-30");
+        formData.put("researchDirection", "人工智能");
+        formData.put("projectCategory", "技术创新");
+        formData.put("rdForm", "自主研发");
+        formData.put("projectOverview", "开发一套AI智能分析平台");
+        formData.put("applyReason", "满足业务发展需求");
+        formData.put("projectAmount", "500000");
+        formData.put("projectType", "0"); // 自研课题
+        
+        // 准备附件ID
+        List<String> attachmentIds = Arrays.asList("附件id1", "附件id2");
+        
+        try {
+            boolean result = sendCommonProcess(baseUrl, token, "研发立项申请流程", formData, attachmentIds);
+            System.out.println("流程发起" + (result ? "成功" : "失败"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section anchor-target" id="complete-flow">
+            <h2 class="section-title">完整调用流程示例</h2>
+            <div class="code-header">
+                <span class="code-language">Java</span>
+                <button class="copy-btn" onclick="copyCode('complete-demo')">复制代码</button>
+            </div>
+            <pre id="complete-demo">import java.util.*;
+
+public class CompleteProcessDemo {
+    
+    public static void main(String[] args) {
+        // 1. 选择环境
+        String baseUrl = "http://127.0.0.1"; 
+        
+        try {
+            // 2. 获取Token
+            String loginName = "员工工号";
+            String token = TokenDemo.getToken(baseUrl, loginName);
+            System.out.println("获取Token成功: " + token);
+            
+            // 3. 上传附件
+            List<String> filePaths = Arrays.asList(
+                "C:\\files\\project_plan.docx",
+                "C:\\files\\budget.xlsx"
+            );
+            List<String> attachmentIds = AttachmentDemo.uploadAttachments(baseUrl, token, filePaths);
+            System.out.println("上传附件完成，附件ID: " + attachmentIds);
+            
+            // 4. 准备表单数据
+            Map<String, Object> formData = new HashMap<>();
+            formData.put("formType", "7"); // 研发立项申请单
+            formData.put("projectNameText", "2023年度研发项目");
+            formData.put("approvalNo", "RD2023001");
+            formData.put("initiateUnit", "单位编码");
+            formData.put("initiateDept", "部门编码");
+            formData.put("initiator", "人员工号");
+            formData.put("initiateTime", "2023-10-01 10:00:00");
+            formData.put("responsibleUnit", "单位编码");
+            formData.put("projectName", "AI智能分析平台研发");
+            formData.put("responsibleDept", "部门编码");
+            formData.put("projectLeader", "人员工号");
+            formData.put("startDate", "2023-10-01");
+            formData.put("endDate", "2024-09-30");
+            formData.put("researchDirection", "人工智能");
+            formData.put("projectCategory", "技术创新");
+            formData.put("rdForm", "自主研发");
+            formData.put("projectOverview", "开发一套AI智能分析平台");
+            formData.put("applyReason", "满足业务发展需求");
+            formData.put("projectAmount", "500000");
+            formData.put("projectType", "0");
+            
+            // 5. 发起流程
+            boolean success = ProcessSendDemo.sendCommonProcess(
+                baseUrl, token, "研发项目立项申请", formData, attachmentIds);
+            
+            if (success) {
+                System.out.println("流程发起成功");
+            } else {
+                System.out.println("流程发起失败");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">注意事项</h2>
+            <div class="note">
+                <strong>重要提醒：</strong>
+                <ul>
+                    <li><strong>环境选择：</strong>测试环境和正式环境的地址不同，注意切换</li>
+                    <li><strong>Token有效期：</strong>Token可能有有效期限制，需要适时重新获取</li>
+                    <li><strong>附件大小：</strong>注意附件上传的大小限制</li>
+                    <li><strong>编码规范：</strong>单位、部门、人员都需要使用编码而非名称</li>
+                    <li><strong>枚举值：</strong>严格按照提供的枚举编码填写</li>
+                    <li><strong>日期格式：</strong>日期字段需按照要求的格式填写</li>
+                    <li><strong>错误处理：</strong>建议在实际使用中添加完善的错误处理和日志记录</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>本接口文档由<strong>北京致远互联软件股份有限公司</strong>提供技术支持</p>
+            <p>文档版本：V1.0 | 最后更新：2023年10月</p>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.dataset.rawCode || codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // 显示复制成功提示
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '已复制';
+            button.style.backgroundColor = '#4caf50';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '#283593';
+            }, 2000);
+        }
+        
+        function enhanceCodeBlocks(scope) {
+            const root = scope || document;
+            const codeBlocks = root.querySelectorAll('pre');
+            codeBlocks.forEach(block => {
+                if (block.dataset.enhanced === 'true') {
+                    return;
+                }
+                const rawCode = block.textContent;
+                block.dataset.rawCode = rawCode;
+                const lines = rawCode.split('\n').length;
+                if (lines > 1) {
+                    block.style.position = 'relative';
+                    block.style.paddingLeft = '3.5em';
+                    
+                    // 创建行号容器
+                    const lineNumbers = document.createElement('div');
+                    lineNumbers.style.position = 'absolute';
+                    lineNumbers.style.left = '0';
+                    lineNumbers.style.top = '0';
+                    lineNumbers.style.bottom = '0';
+                    lineNumbers.style.width = '3em';
+                    lineNumbers.style.backgroundColor = '#f0f0f0';
+                    lineNumbers.style.borderRight = '1px solid #ddd';
+                    lineNumbers.style.textAlign = 'right';
+                    lineNumbers.style.padding = '15px 5px';
+                    lineNumbers.style.fontFamily = "'Courier New', monospace";
+                    lineNumbers.style.fontSize = '14px';
+                    lineNumbers.style.lineHeight = '1.5';
+                    lineNumbers.style.color = '#666';
+                    lineNumbers.style.overflow = 'hidden';
+                    
+                    // 添加行号
+                    let lineNumbersContent = '';
+                    for (let i = 1; i <= lines; i++) {
+                        lineNumbersContent += i + '<br>';
+                    }
+                    lineNumbers.innerHTML = lineNumbersContent;
+                    
+                    block.appendChild(lineNumbers);
+                }
+                block.dataset.enhanced = 'true';
+            });
+
+            const previewLanguages = new Set(['JSON', 'Java']);
+            const previewThreshold = 18;
+
+            root.querySelectorAll('.code-header').forEach(header => {
+                if (header.dataset.previewEnhanced === 'true') {
+                    return;
+                }
+                const codeLanguage = header.querySelector('.code-language');
+                const codeBlock = header.nextElementSibling;
+                if (!codeLanguage || !codeBlock || codeBlock.tagName !== 'PRE') {
+                    return;
+                }
+
+                const language = codeLanguage.textContent.trim();
+                const rawCode = codeBlock.dataset.rawCode || codeBlock.textContent;
+                const lines = rawCode.split('\n').length;
+                if (!previewLanguages.has(language) || lines <= previewThreshold) {
+                    return;
+                }
+
+                let actions = header.querySelector('.code-actions');
+                if (!actions) {
+                    actions = document.createElement('div');
+                    actions.className = 'code-actions';
+                    const copyButton = header.querySelector('.copy-btn');
+                    if (copyButton) {
+                        header.appendChild(actions);
+                        actions.appendChild(copyButton);
+                    } else {
+                        header.appendChild(actions);
+                    }
+                }
+
+                const shell = document.createElement('div');
+                shell.className = 'code-block-shell is-collapsed';
+                codeBlock.parentNode.insertBefore(shell, codeBlock);
+                shell.appendChild(codeBlock);
+                codeBlock.classList.add('code-preview-collapsed');
+
+                const toggleButton = document.createElement('button');
+                toggleButton.type = 'button';
+                toggleButton.className = 'toggle-code-btn';
+                toggleButton.textContent = '展开完整示例';
+
+                toggleButton.addEventListener('click', function() {
+                    const isCollapsed = codeBlock.classList.contains('code-preview-collapsed');
+                    if (isCollapsed) {
+                        codeBlock.classList.remove('code-preview-collapsed');
+                        shell.classList.remove('is-collapsed');
+                        toggleButton.textContent = '收起示例';
+                    } else {
+                        codeBlock.classList.add('code-preview-collapsed');
+                        shell.classList.add('is-collapsed');
+                        toggleButton.textContent = '展开完整示例';
+                    }
+                });
+
+                actions.insertBefore(toggleButton, actions.firstChild);
+                header.dataset.previewEnhanced = 'true';
+            });
+        }
+
+        function initFormTabs(scope) {
+            const root = scope || document;
+            root.querySelectorAll('.form-tabs').forEach(tabGroup => {
+                if (tabGroup.dataset.tabsReady === 'true') {
+                    return;
+                }
+                const buttons = tabGroup.querySelectorAll('.form-tab-btn');
+                const panels = tabGroup.querySelectorAll('.form-tab-panel');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const targetId = button.dataset.tabTarget;
+
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        panels.forEach(panel => panel.classList.remove('active'));
+
+                        button.classList.add('active');
+                        const targetPanel = tabGroup.querySelector('#' + targetId);
+                        if (targetPanel) {
+                            targetPanel.classList.add('active');
+                        }
+                    });
+                });
+                tabGroup.dataset.tabsReady = 'true';
+            });
+        }
+
+        function renderProcessFormTabs(forms) {
+            const processFormTabsRoot = document.getElementById('process-form-tabs-root');
+            if (!processFormTabsRoot) {
+                return;
+            }
+
+            const tabsContainer = document.createElement('div');
+            tabsContainer.className = 'form-tabs';
+
+            const tabList = document.createElement('div');
+            tabList.className = 'form-tab-list';
+            tabsContainer.appendChild(tabList);
+
+            forms.forEach((form, index) => {
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.className = 'form-tab-btn' + (index === 0 ? ' active' : '');
+                tabButton.dataset.tabTarget = form.key + '-panel';
+                tabButton.textContent = form.tabTitle;
+                tabList.appendChild(tabButton);
+            });
+
+            forms.forEach((form, index) => {
+                const panel = document.createElement('div');
+                panel.className = 'form-tab-panel' + (index === 0 ? ' active' : '');
+                panel.id = form.key + '-panel';
+
+                const section = document.createElement('div');
+                section.className = 'api-section';
+
+                const heading = document.createElement('h4');
+                heading.textContent = form.heading;
+
+                const templateInfo = document.createElement('p');
+                templateInfo.innerHTML = '<strong>templateCode:</strong> ' + form.templateCode + '（固定值）';
+
+                const codeHeader = document.createElement('div');
+                codeHeader.className = 'code-header';
+
+                const codeLanguage = document.createElement('span');
+                codeLanguage.className = 'code-language';
+                codeLanguage.textContent = 'JSON';
+
+                const copyButton = document.createElement('button');
+                copyButton.type = 'button';
+                copyButton.className = 'copy-btn';
+                copyButton.textContent = '复制代码';
+                copyButton.setAttribute('onclick', "copyCode('" + form.key + "')");
+
+                codeHeader.appendChild(codeLanguage);
+                codeHeader.appendChild(copyButton);
+
+                const codeBlock = document.createElement('pre');
+                codeBlock.id = form.key;
+                codeBlock.textContent = form.requestExample;
+
+                section.appendChild(heading);
+                section.appendChild(templateInfo);
+                section.appendChild(codeHeader);
+                section.appendChild(codeBlock);
+                panel.appendChild(section);
+                tabsContainer.appendChild(panel);
+            });
+
+            processFormTabsRoot.innerHTML = '';
+            processFormTabsRoot.appendChild(tabsContainer);
+            enhanceCodeBlocks(tabsContainer);
+            initFormTabs(tabsContainer);
+        }
+
+        async function loadProcessFormTabs() {
+            const processFormTabsRoot = document.getElementById('process-form-tabs-root');
+            if (!processFormTabsRoot) {
+                return;
+            }
+
+            processFormTabsRoot.innerHTML = '<div class="form-tabs-status">正在加载表单示例...</div>';
+
+            try {
+                const manifestResponse = await fetch('process-forms/forms-manifest.json');
+                if (!manifestResponse.ok) {
+                    throw new Error('manifest load failed');
+                }
+                const manifest = await manifestResponse.json();
+                const forms = await Promise.all(
+                    manifest.map(async path => {
+                        const response = await fetch(path);
+                        if (!response.ok) {
+                            throw new Error('form load failed: ' + path);
+                        }
+                        return response.json();
+                    })
+                );
+                renderProcessFormTabs(forms);
+            } catch (error) {
+                processFormTabsRoot.innerHTML = '<div class="form-tabs-status">表单示例加载失败。请优先通过本地 HTTP 服务打开该文档，或检查 `process-forms` 目录下的 JSON 文件是否存在。</div>';
+            }
+        }
+
+        // 页面加载完成后添加代码高亮
+        document.addEventListener('DOMContentLoaded', function() {
+            enhanceCodeBlocks(document);
+            initFormTabs(document);
+            loadProcessFormTabs();
+        });
+    </script>
+</body>
+</html>
